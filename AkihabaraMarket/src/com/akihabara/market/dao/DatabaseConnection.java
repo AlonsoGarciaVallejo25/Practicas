@@ -23,7 +23,7 @@ public class DatabaseConnection {
     }
 
     // Método para obtener conexión
-    public Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
         System.out.println("Se ha establecido con éxito la conexión a la base de datos.");
         return conn;

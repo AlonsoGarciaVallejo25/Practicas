@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductoDAO {
-    private final DatabaseConnection dbConn = new DatabaseConnection();
+    
 
     public void agregarProducto(ProductoOtaku producto) {
         String sql = "INSERT INTO producto (nombre, categoria, precio, stock) VALUES (?, ?, ?, ?)";
-        try (Connection conn = dbConn.getConnection();
+        try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, producto.getNombre());
             stmt.setString(2, producto.getCategoria());
@@ -26,7 +26,7 @@ public class ProductoDAO {
 
     public ProductoOtaku obtenerProductoPorId(int id) {
         String sql = "SELECT * FROM producto WHERE id = ?";
-        try (Connection conn = dbConn.getConnection();
+        try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -49,7 +49,7 @@ public class ProductoDAO {
     public List<ProductoOtaku> obtenerTodosLosProductos() {
         List<ProductoOtaku> productos = new ArrayList<>();
         String sql = "SELECT * FROM producto";
-        try (Connection conn = dbConn.getConnection();
+        try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
@@ -69,7 +69,7 @@ public class ProductoDAO {
 
     public boolean actualizarProducto(ProductoOtaku producto) {
         String sql = "UPDATE producto SET nombre = ?, categoria = ?, precio = ?, stock = ? WHERE id = ?";
-        try (Connection conn = dbConn.getConnection();
+        try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, producto.getNombre());
             stmt.setString(2, producto.getCategoria());
@@ -85,7 +85,7 @@ public class ProductoDAO {
 
     public boolean eliminarProducto(int id) {
         String sql = "DELETE FROM producto WHERE id = ?";
-        try (Connection conn = dbConn.getConnection();
+        try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             return stmt.executeUpdate() > 0;
@@ -98,7 +98,7 @@ public class ProductoDAO {
     public List<ProductoOtaku> buscarProductosPorNombre(String nombre) {
         List<ProductoOtaku> productos = new ArrayList<>();
         String sql = "SELECT * FROM producto WHERE nombre LIKE ?";
-        try (Connection conn = dbConn.getConnection();
+        try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, "%" + nombre + "%");
             try (ResultSet rs = stmt.executeQuery()) {
@@ -121,7 +121,7 @@ public class ProductoDAO {
     public List<ProductoOtaku> buscarProductoPorCategoria(String categoria) {
         List<ProductoOtaku> productos = new ArrayList<>();
         String sql = "SELECT * FROM producto WHERE categoria = ?";
-        try (Connection conn = dbConn.getConnection();
+        try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, categoria);
             try (ResultSet rs = stmt.executeQuery()) {
